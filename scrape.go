@@ -133,6 +133,21 @@ func CombineMachers(listMachers []Matcher) Matcher {
 	}
 }
 
+// MatchOneOfMatchers ----
+//Using for combine one or more matcher by OR CLAUSE in scrape.---
+func MatchOneOfMatchers(listMachers []Matcher) Matcher {
+	return func(node *html.Node) bool {
+		b := false
+		for _, m := range listMachers {
+			if m(node) {
+				b = true
+				break
+			}
+		}
+		return b
+	}
+}
+
 // ByClass returns a Matcher which matches all nodes with the provided class.
 func ByClass(class string) Matcher {
 	return func(node *html.Node) bool {
